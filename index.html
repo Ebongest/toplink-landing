@@ -1,21 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TopLink Call — Calls That Work Anywhere</title>
+  <meta name="description" content="The first calling app built for the real world. Works on 2G, 3G, 4G and Starlink. Privacy-first, Africa-optimised, globally competitive." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0B3D66; --blue: #1A5F8C; --green: #52C41A;
+      --gold: #FFD700; --white: #FFFFFF; --off-white: #F4F7FA;
+      --text: #1A1A2E; --muted: #64748B; --border: #E2E8F0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 16px 5%; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; color: var(--navy); text-decoration: none; }
+    .nav-logo-icon { width: 36px; height: 36px; background: var(--navy); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta { background: var(--navy); color: var(--white) !important; padding: 10px 20px; border-radius: 8px; font-weight: 600 !important; }
+    .hero { min-height: 100vh; background: linear-gradient(135deg, var(--navy) 0%, #0D4F8C 50%, #1A5F8C 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 5% 80px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 40%, rgba(82,196,26,0.08) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(255,215,0,0.06) 0%, transparent 50%); }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(82,196,26,0.15); border: 1px solid rgba(82,196,26,0.3); color: var(--green); font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 100px; margin-bottom: 32px; position: relative; z-index: 1; }
+    .hero-badge-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 2s infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(40px, 8vw, 80px); font-weight: 700; color: var(--white); line-height: 1.05; letter-spacing: -1px; max-width: 900px; position: relative; z-index: 1; }
+    h1 span { color: var(--green); }
+    .hero-sub { font-size: clamp(16px, 2.5vw, 20px); color: rgba(255,255,255,0.75); max-width: 580px; line-height: 1.6; margin: 24px auto 48px; position: relative; z-index: 1; }
+    .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--green); color: var(--navy); font-weight: 700; font-size: 16px; padding: 16px 32px; border-radius: 12px; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(82,196,26,0.4); }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); color: var(--white); font-weight: 600; font-size: 16px; padding: 16px 32px; border-radius: 12px; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); transition: background 0.2s; }
+    .hero-stats { display: flex; gap: 48px; margin-top: 80px; position: relative; z-index: 1; flex-wrap: wrap; justify-content: center; }
+    .hero-stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; color: var(--white); }
+    .hero-stat-label { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 4px; }
+    .signal-bar { background: var(--off-white); padding: 20px 5%; display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
+    .signal-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--navy); }
+    section { padding: 100px 5%; }
+    .section-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--green); margin-bottom: 16px; }
+    .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 5vw, 48px); font-weight: 700; color: var(--navy); line-height: 1.15; max-width: 640px; }
+    .section-sub { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 560px; margin-top: 16px; }
+    .problem { background: var(--navy); }
+    .problem .section-title { color: var(--white); max-width: 100%; }
+    .problem .section-sub { color: rgba(255,255,255,0.65); max-width: 100%; }
+    .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 56px; }
+    .problem-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px; }
+    .problem-card-icon { font-size: 32px; margin-bottom: 16px; }
+    .problem-card-title { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    .problem-card-text { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 64px; }
+    .feature-card { background: var(--off-white); border-radius: 20px; padding: 32px; position: relative; overflow: hidden; }
+    .feature-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--navy); border-radius: 4px 0 0 4px; }
+    .feature-card.green::before { background: var(--green); }
+    .feature-card.gold::before { background: var(--gold); }
+    .feature-card.purple::before { background: #722ED1; }
+    .feature-icon { font-size: 32px; margin-bottom: 16px; }
+    .feature-title { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .feature-text { font-size: 14px; color: var(--muted); line-height: 1.65; }
+    .feature-tag { display: inline-block; background: var(--navy); color: var(--white); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 100px; margin-top: 16px; }
+    .feature-card.green .feature-tag { background: var(--green); color: var(--navy); }
+    .feature-card.gold .feature-tag { background: var(--gold); color: var(--navy); }
+    .feature-card.purple .feature-tag { background: #722ED1; }
+    .vs-section { background: var(--off-white); }
+    .vs-table { width: 100%; border-collapse: collapse; margin-top: 48px; font-size: 14px; }
+    .vs-table th { padding: 16px 20px; text-align: center; font-weight: 700; font-size: 15px; }
+    .vs-table th:first-child { text-align: left; }
+    .vs-table th.highlight { background: var(--navy); color: var(--white); border-radius: 12px 12px 0 0; }
+    .vs-table td { padding: 14px 20px; text-align: center; border-bottom: 1px solid var(--border); color: var(--muted); }
+    .vs-table td:first-child { text-align: left; font-weight: 600; color: var(--text); }
+    .vs-table td.highlight { background: rgba(11,61,102,0.04); color: var(--navy); font-weight: 600; }
+    .check { color: var(--green); font-size: 18px; }
+    .cross { color: #D32F2F; font-size: 18px; }
+    .partial { color: var(--gold); font-size: 14px; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 64px; align-items: start; }
+    .pricing-card { border: 1px solid var(--border); border-radius: 20px; padding: 36px 28px; background: var(--white); }
+    .pricing-card.featured { background: var(--navy); border-color: var(--navy); transform: scale(1.03); }
+    .pricing-plan { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+    .pricing-card.featured .pricing-plan { color: rgba(255,255,255,0.6); }
+    .pricing-price { font-family: 'Space Grotesk', sans-serif; font-size: 48px; font-weight: 700; color: var(--navy); line-height: 1; }
+    .pricing-card.featured .pricing-price { color: var(--white); }
+    .pricing-period { font-size: 14px; color: var(--muted); margin-top: 4px; }
+    .pricing-card.featured .pricing-period { color: rgba(255,255,255,0.6); }
+    .pricing-divider { height: 1px; background: var(--border); margin: 24px 0; }
+    .pricing-card.featured .pricing-divider { background: rgba(255,255,255,0.15); }
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+    .pricing-features li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text); }
+    .pricing-card.featured .pricing-features li { color: rgba(255,255,255,0.85); }
+    .pricing-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .pricing-btn { display: block; text-align: center; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 15px; text-decoration: none; background: var(--off-white); color: var(--navy); }
+    .pricing-card.featured .pricing-btn { background: var(--green); color: var(--navy); }
+    .starlink { background: linear-gradient(135deg, #0a0a1a 0%, #0B3D66 100%); color: var(--white); text-align: center; }
+    .starlink .section-title { color: var(--white); max-width: 100%; }
+    .starlink .section-sub { color: rgba(255,255,255,0.65); max-width: 640px; margin: 16px auto 0; }
+    .starlink-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); color: var(--gold); font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 100px; margin-bottom: 32px; }
+    .starlink-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 56px; text-align: left; }
+    .starlink-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; }
+    .starlink-card-icon { font-size: 28px; margin-bottom: 12px; }
+    .starlink-card-title { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .starlink-card-text { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+    .cta { background: var(--green); text-align: center; padding: 80px 5%; }
+    .cta h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 5vw, 48px); font-weight: 700; color: var(--navy); margin-bottom: 16px; }
+    .cta p { font-size: 18px; color: rgba(11,61,102,0.75); margin-bottom: 40px; }
+    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-dark { display: inline-flex; align-items: center; gap: 8px; background: var(--navy); color: var(--white); font-weight: 700; font-size: 16px; padding: 16px 32px; border-radius: 12px; text-decoration: none; }
+    footer { background: var(--navy); color: rgba(255,255,255,0.5); padding: 48px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--white); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; }
+    .footer-copy { font-size: 13px; }
+    @media (max-width: 768px) { .nav-links { display: none; } .pricing-card.featured { transform: none; } footer { flex-direction: column; text-align: center; } }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">📞</div>
+    TopLink Call
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#compare">Compare</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#starlink">Starlink</a></li>
+    <li><a href="#download" class="nav-cta">Download</a></li>
+  </ul>
+</nav>
 
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <script src='https://8x8.vc/vpaas-magic-cookie-67bd8b4c554a415bafaa029ddebf6bb9/external_api.js' async></script>
-        <style>html, body, #jaas-container { height: 100%; }</style>
-        <script type="text/javascript">
-          window.onload = () => {
-            const api = new JitsiMeetExternalAPI("8x8.vc", {
-              roomName: "vpaas-magic-cookie-67bd8b4c554a415bafaa029ddebf6bb9/SampleAppSuperiorPansPrintForth",
-              parentNode: document.querySelector('#jaas-container'),
-							// Make sure to include a JWT if you intend to record,
-							// make outbound calls or use any other premium features!
-							// jwt: "eyJraWQiOiJ2cGFhcy1tYWdpYy1jb29raWUtNjdiZDhiNGM1NTRhNDE1YmFmYWEwMjlkZGViZjZiYjkvMDJkODQxLVNBTVBMRV9BUFAiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJqaXRzaSIsImlzcyI6ImNoYXQiLCJpYXQiOjE3Njg5MjYwOTMsImV4cCI6MTc2ODkzMzI5MywibmJmIjoxNzY4OTI2MDg4LCJzdWIiOiJ2cGFhcy1tYWdpYy1jb29raWUtNjdiZDhiNGM1NTRhNDE1YmFmYWEwMjlkZGViZjZiYjkiLCJjb250ZXh0Ijp7ImZlYXR1cmVzIjp7ImxpdmVzdHJlYW1pbmciOmZhbHNlLCJmaWxlLXVwbG9hZCI6ZmFsc2UsIm91dGJvdW5kLWNhbGwiOmZhbHNlLCJzaXAtb3V0Ym91bmQtY2FsbCI6ZmFsc2UsInRyYW5zY3JpcHRpb24iOmZhbHNlLCJsaXN0LXZpc2l0b3JzIjpmYWxzZSwicmVjb3JkaW5nIjpmYWxzZSwiZmxpcCI6ZmFsc2V9LCJ1c2VyIjp7ImhpZGRlbi1mcm9tLXJlY29yZGVyIjpmYWxzZSwibW9kZXJhdG9yIjp0cnVlLCJuYW1lIjoiVGVzdCBVc2VyIiwiaWQiOiJhdXRoMHw2OTZmYWFiZjU2MGUzZDU2NDE0MGY0MDYiLCJhdmF0YXIiOiIiLCJlbWFpbCI6InRlc3QudXNlckBjb21wYW55LmNvbSJ9fSwicm9vbSI6IioifQ.IP8slwC_q52CuXvkdtX07izu4Qlh7W-CWi75gNdANbxt0Cc5sVNlNOWlvSjnZ14ZTXh1xQfK8sglDbmU5aefdu3XEHVp5mrTOJSLvLDSTTXyD5ulbnqmGkcjU3ORrIJ98J6rSSqDKrP30YogebW2HhG1hPi7W2159QGAafIovstmVVDgaVOJ5JzhW03i_cz6Spmhn26iIuUcCLnGuZ-H8vgxoTpIar7jBneUAdB5xeEYgv6d6hCz02oAYeOc8eQq0v3VaDfZ_282PkKi3wP7TkLoqBRz9trupoKmP2emKUO2Otoj8MJeJyOMaoLiOu_xIX7je_Y3CdhHUcpDaBkITw"
-            });
-          }
-        </script>
-      </head>
-      <body><div id="jaas-container" /></body>
-    </html>
-  
+<section class="hero">
+  <div class="hero-badge"><span class="hero-badge-dot"></span>Now available · Africa · UK · Global</div>
+  <h1>Calls that work<br /><span>anywhere on earth</span></h1>
+  <p class="hero-sub">The first calling app built for real-world networks. Works on 2G, 3G, 4G, and Starlink. Privacy-first. No phone number needed.</p>
+  <div class="hero-actions">
+    <a href="#download" class="btn-primary">⬇ Download Free Trial</a>
+    <a href="#features" class="btn-secondary">See how it works →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Network profiles</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">95%</div><div class="hero-stat-label">Cheaper than MTN calls</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">24kbps</div><div class="hero-stat-label">Minimum bandwidth needed</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">0</div><div class="hero-stat-label">Phone number required</div></div>
+  </div>
+</section>
+
+<div class="signal-bar">
+  <div class="signal-item">📶 Works on 2G</div>
+  <div class="signal-item">🛰️ Starlink optimised</div>
+  <div class="signal-item">🔒 End-to-end privacy</div>
+  <div class="signal-item">🤖 AI meeting summaries</div>
+  <div class="signal-item">🏢 Business ready</div>
+</div>
+
+<section class="problem" id="problem">
+  <p class="section-eyebrow">The real problem</p>
+  <h2 class="section-title">Every calling app assumes you have perfect internet. You don't.</h2>
+  <p class="section-sub">WhatsApp drops on 3G. Zoom freezes in rural areas. Teams crashes on satellite. They were all built for city broadband, not the real world.</p>
+  <div class="problem-grid">
+    <div class="problem-card"><div class="problem-card-icon">📉</div><div class="problem-card-title">Poor network = dropped call</div><div class="problem-card-text">WhatsApp and Zoom assume 1Mbps+. In Nigeria, rural Africa, and satellite areas, you often don't have that.</div></div>
+    <div class="problem-card"><div class="problem-card-icon">👁️</div><div class="problem-card-title">Your data is their product</div><div class="problem-card-text">Meta uses WhatsApp metadata. Zoom trains AI on your content. Microsoft analyses Teams meetings. Your conversations fund their ads.</div></div>
+    <div class="problem-card"><div class="problem-card-icon">💸</div><div class="problem-card-title">Paying for services that fail</div><div class="problem-card-text">Africans aren't tired of paying. They're tired of paying for apps that don't work on their networks.</div></div>
+    <div class="problem-card"><div class="problem-card-icon">🏷️</div><div class="problem-card-title">No business identity</div><div class="problem-card-text">When your staff call clients, they show up as random numbers. No branding. No trust signal.</div></div>
+  </div>
+</section>
+
+<section id="features" style="background: var(--off-white);">
+  <p class="section-eyebrow">Features</p>
+  <h2 class="section-title">Everything a calling app should be</h2>
+  <p class="section-sub">Not just calls. A complete communication platform with features no competitor offers together.</p>
+  <div
+cat > index.html << 'ENDOFFILE'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TopLink Call — Calls That Work Anywhere</title>
+  <meta name="description" content="The first calling app built for the real world. Works on 2G, 3G, 4G and Starlink. Privacy-first, Africa-optimised, globally competitive." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0B3D66; --blue: #1A5F8C; --green: #52C41A;
+      --gold: #FFD700; --white: #FFFFFF; --off-white: #F4F7FA;
+      --text: #1A1A2E; --muted: #64748B; --border: #E2E8F0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 16px 5%; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; color: var(--navy); text-decoration: none; }
+    .nav-logo-icon { width: 36px; height: 36px; background: var(--navy); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta { background: var(--navy); color: var(--white) !important; padding: 10px 20px; border-radius: 8px; font-weight: 600 !important; }
+    .hero { min-height: 100vh; background: linear-gradient(135deg, var(--navy) 0%, #0D4F8C 50%, #1A5F8C 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 5% 80px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 40%, rgba(82,196,26,0.08) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(255,215,0,0.06) 0%, transparent 50%); }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(82,196,26,0.15); border: 1px solid rgba(82,196,26,0.3); color: var(--green); font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 100px; margin-bottom: 32px; position: relative; z-index: 1; }
+    .hero-badge-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 2s infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(40px, 8vw, 80px); font-weight: 700; color: var(--white); line-height: 1.05; letter-spacing: -1px; max-width: 900px; position: relative; z-index: 1; }
+    h1 span { color: var(--green); }
+    .hero-sub { font-size: clamp(16px, 2.5vw, 20px); color: rgba(255,255,255,0.75); max-width: 580px; line-height: 1.6; margin: 24px auto 48px; position: relative; z-index: 1; }
+    .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--green); color: var(--navy); font-weight: 700; font-size: 16px; padding: 16px 32px; border-radius: 12px; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(82,196,26,0.4); }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); color: var(--white); font-weight: 600; font-size: 16px; padding: 16px 32px; border-radius: 12px; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); transition: background 0.2s; }
+    .hero-stats { display: flex; gap: 48px; margin-top: 80px; position: relative; z-index: 1; flex-wrap: wrap; justify-content: center; }
+    .hero-stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; color: var(--white); }
+    .hero-stat-label { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 4px; }
+    .signal-bar { background: var(--off-white); padding: 20px 5%; display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
+    .signal-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--navy); }
+    section { padding: 100px 5%; }
+    .section-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--green); margin-bottom: 16px; }
+    .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 5vw, 48px); font-weight: 700; color: var(--navy); line-height: 1.15; max-width: 640px; }
+    .section-sub { font-size: 17px; color: var(--muted); line-height: 1.7; max-width: 560px; margin-top: 16px; }
+    .problem { background: var(--navy); }
+    .problem .section-title { color: var(--white); max-width: 100%; }
+    .problem .section-sub { color: rgba(255,255,255,0.65); max-width: 100%; }
+    .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 56px; }
+    .problem-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px; }
+    .problem-card-icon { font-size: 32px; margin-bottom: 16px; }
+    .problem-card-title { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+    .problem-card-text { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 64px; }
+    .feature-card { background: var(--off-white); border-radius: 20px; padding: 32px; position: relative; overflow: hidden; }
+    .feature-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--navy); border-radius: 4px 0 0 4px; }
+    .feature-card.green::before { background: var(--green); }
+    .feature-card.gold::before { background: var(--gold); }
+    .feature-card.purple::before { background: #722ED1; }
+    .feature-icon { font-size: 32px; margin-bottom: 16px; }
+    .feature-title { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .feature-text { font-size: 14px; color: var(--muted); line-height: 1.65; }
+    .feature-tag { display: inline-block; background: var(--navy); color: var(--white); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 100px; margin-top: 16px; }
+    .feature-card.green .feature-tag { background: var(--green); color: var(--navy); }
+    .feature-card.gold .feature-tag { background: var(--gold); color: var(--navy); }
+    .feature-card.purple .feature-tag { background: #722ED1; }
+    .vs-section { background: var(--off-white); }
+    .vs-table { width: 100%; border-collapse: collapse; margin-top: 48px; font-size: 14px; }
+    .vs-table th { padding: 16px 20px; text-align: center; font-weight: 700; font-size: 15px; }
+    .vs-table th:first-child { text-align: left; }
+    .vs-table th.highlight { background: var(--navy); color: var(--white); border-radius: 12px 12px 0 0; }
+    .vs-table td { padding: 14px 20px; text-align: center; border-bottom: 1px solid var(--border); color: var(--muted); }
+    .vs-table td:first-child { text-align: left; font-weight: 600; color: var(--text); }
+    .vs-table td.highlight { background: rgba(11,61,102,0.04); color: var(--navy); font-weight: 600; }
+    .check { color: var(--green); font-size: 18px; }
+    .cross { color: #D32F2F; font-size: 18px; }
+    .partial { color: var(--gold); font-size: 14px; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 64px; align-items: start; }
+    .pricing-card { border: 1px solid var(--border); border-radius: 20px; padding: 36px 28px; background: var(--white); }
+    .pricing-card.featured { background: var(--navy); border-color: var(--navy); transform: scale(1.03); }
+    .pricing-plan { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+    .pricing-card.featured .pricing-plan { color: rgba(255,255,255,0.6); }
+    .pricing-price { font-family: 'Space Grotesk', sans-serif; font-size: 48px; font-weight: 700; color: var(--navy); line-height: 1; }
+    .pricing-card.featured .pricing-price { color: var(--white); }
+    .pricing-period { font-size: 14px; color: var(--muted); margin-top: 4px; }
+    .pricing-card.featured .pricing-period { color: rgba(255,255,255,0.6); }
+    .pricing-divider { height: 1px; background: var(--border); margin: 24px 0; }
+    .pricing-card.featured .pricing-divider { background: rgba(255,255,255,0.15); }
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+    .pricing-features li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text); }
+    .pricing-card.featured .pricing-features li { color: rgba(255,255,255,0.85); }
+    .pricing-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .pricing-btn { display: block; text-align: center; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 15px; text-decoration: none; background: var(--off-white); color: var(--navy); }
+    .pricing-card.featured .pricing-btn { background: var(--green); color: var(--navy); }
+    .starlink { background: linear-gradient(135deg, #0a0a1a 0%, #0B3D66 100%); color: var(--white); text-align: center; }
+    .starlink .section-title { color: var(--white); max-width: 100%; }
+    .starlink .section-sub { color: rgba(255,255,255,0.65); max-width: 640px; margin: 16px auto 0; }
+    .starlink-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); color: var(--gold); font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 100px; margin-bottom: 32px; }
+    .starlink-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 56px; text-align: left; }
+    .starlink-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; }
+    .starlink-card-icon { font-size: 28px; margin-bottom: 12px; }
+    .starlink-card-title { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .starlink-card-text { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+    .cta { background: var(--green); text-align: center; padding: 80px 5%; }
+    .cta h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 5vw, 48px); font-weight: 700; color: var(--navy); margin-bottom: 16px; }
+    .cta p { font-size: 18px; color: rgba(11,61,102,0.75); margin-bottom: 40px; }
+    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-dark { display: inline-flex; align-items: center; gap: 8px; background: var(--navy); color: var(--white); font-weight: 700; font-size: 16px; padding: 16px 32px; border-radius: 12px; text-decoration: none; }
+    footer { background: var(--navy); color: rgba(255,255,255,0.5); padding: 48px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--white); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; }
+    .footer-copy { font-size: 13px; }
+    @media (max-width: 768px) { .nav-links { display: none; } .pricing-card.featured { transform: none; } footer { flex-direction: column; text-align: center; } }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">📞</div>
+    TopLink Call
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#compare">Compare</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#starlink">Starlink</a></li>
+    <li><a href="#download" class="nav-cta">Download</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge"><span class="hero-badge-dot"></span>Now available · Africa · UK · Global</div>
+  <h1>Calls that work<br /><span>anywhere on earth</span></h1>
+  <p class="hero-sub">The first calling app built for real-world networks. Works on 2G, 3G, 4G, and Starlink. Privacy-first. No phone number needed.</p>
+  <div class="hero-actions">
+    <a href="#download" class="btn-primary">⬇ Download Free Trial</a>
+    <a href="#features" class="btn-secondary">See how it works →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Network profiles</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">95%</div><div class="hero-stat-label">Cheaper than MTN calls</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">24kbps</div><div class="hero-stat-label">Minimum bandwidth needed</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">0</div><div class="hero-stat-label">Phone number required</div></div>
+  </div>
+</section>
+
+<div class="signal-bar">
+  <div class="signal-item">📶 Works on 2G</div>
+  <div class="signal-item">🛰️ Starlink optimised</div>
+  <div class="signal-item">🔒 End-to-end privacy</div>
+  <div class="signal-item">🤖 AI meeting summaries</div>
+  <div class="signal-item">🏢 Business ready</div>
+</div>
+
+<section class="problem" id="problem">
+  <p class="section-eyebrow">The real problem</p>
+  <h2 class="section-title">Every calling app assumes you have perfect internet. You don't.</h2>
+  <p class="section-sub">WhatsApp drops on 3G. Zoom freezes in rural areas. Teams crashes on satellite. They were all built for city broadband, not the real world.</p>
+  <div class="problem-grid">
+    <div class="problem-card"><div class="problem-card-icon">📉</div><div class="problem-card-title">Poor network = dropped call</div><div class="problem-card-text">WhatsApp and Zoom assume 1Mbps+. In Nigeria, rural Africa, and satellite areas, you often don't have that.</div></div>
+    <div class="problem-card"><div class="problem-card-icon">👁️</div><div class="problem-card-title">Your data is their product</div><div class="problem-card-text">Meta uses WhatsApp metadata. Zoom trains AI on your content. Microsoft analyses Teams meetings. Your conversations fund their ads.</div></div>
+    <div class="problem-card"><div class="problem-card-icon">💸</div><div class="problem-card-title">Paying for services that fail</div><div class="problem-card-text">Africans aren't tired of paying. They're tired of paying for apps that don't work on their networks.</div></div>
+    <div class="problem-card"><div class="problem-card-icon">🏷️</div><div class="problem-card-title">No business identity</div><div class="problem-card-text">When your staff call clients, they show up as random numbers. No branding. No trust signal.</div></div>
+  </div>
+</section>
+
+<section id="features" style="background: var(--off-white);">
+  <p class="section-eyebrow">Features</p>
+  <h2 class="section-title">Everything a calling app should be</h2>
+  <p class="section-sub">Not just calls. A complete communication platform with features no competitor offers together.</p>
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon">📞</div><div class="feature-title">1:1 Voice & Video Calls</div><div class="feature-text">Native SDK calls. Real camera and mic access. Mute, camera toggle, and live quality indicator.</div><span class="feature-tag">Core</span></div>
+    <div class="feature-card green"><div class="feature-icon">👥</div><div class="feature-title">Group Conference</div><div class="feature-text">Full Zoom-style conferences with breakout rooms, emoji reactions, participant management, and attendance analytics.</div><span class="feature-tag">Core</span></div>
+    <div class="feature-card"><div class="feature-icon">💬</div><div class="feature-title">Real-time Chat</div><div class="feature-text">Direct messaging and in-call chat. Messages sync instantly between devices. Content moderation built in.</div><span class="feature-tag">Core</span></div>
+    <div class="feature-card gold"><div class="feature-icon">🤖</div><div class="feature-title">AI Meeting Summary</div><div class="feature-text">Powered by Claude AI. Key points, decisions, action items, and a catch-up brief for late joiners.</div><span class="feature-tag">Business</span></div>
+    <div class="feature-card"><div class="feature-icon">📝</div><div class="feature-title">Private Notes</div><div class="feature-text">A personal scratchpad during every call. Only you can see it. Export after the meeting.</div><span class="feature-tag">Business</span></div>
+    <div class="feature-card purple"><div class="feature-icon">🏢</div><div class="feature-title">Organisation Workspace</div><div class="feature-text">Your company name and branding shows on every call your team makes — internal and external.</div><span class="feature-tag">Enterprise</span></div>
+    <div class="feature-card green"><div class="feature-icon">🛰️</div><div class="feature-title">Starlink Mode</div><div class="feature-text">Auto-detects Starlink and optimises instantly. The only calling app built for satellite internet in Africa.</div><span class="feature-tag">All plans</span></div>
+    <div class="feature-card"><div class="feature-icon">🔒</div><div class="feature-title">Privacy First</div><div class="feature-text">No phone number needed. TopLink ID only. No call content stored. No metadata sold.</div><span class="feature-tag">All plans</span></div>
+    <div class="feature-card gold"><div class="feature-icon">🎨</div><div class="feature-title">White-label Branding</div><div class="feature-text">Set your company colours, logo, and name. Every call your team makes carries your brand identity.</div><span class="feature-tag">Business+</span></div>
+  </div>
+</section>
+
+<section class="vs-section" id="compare">
+  <p class="section-eyebrow">Comparison</p>
+  <h2 class="section-title">How we compare</h2>
+  <table class="vs-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th class="highlight">TopLink Call</th>
+        <th>WhatsApp</th>
+        <th>Zoom</th>
+        <th>Teams</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Works on 2G/3G/satellite</td><td class="highlight"><span class="check">✓</span> Built for it</td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+      <tr><td>No phone number needed</td><td class="highlight"><span class="check">✓</span> TopLink ID</td><td><span class="cross">✗</span> Required</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Privacy — no data sold</td><td class="highlight"><span class="check">✓</span> Guaranteed</td><td><span class="cross">✗</span> Meta owns it</td><td><span class="partial">⚠ AI training</span></td><td><span class="partial">⚠ Microsoft</span></td></tr>
+      <tr><td>AI meeting summary</td><td class="highlight"><span class="check">✓</span> Built in</td><td><span class="cross">✗</span></td><td><span class="partial">⚠ Paid add-on</span></td><td><span class="partial">⚠ Copilot extra</span></td></tr>
+      <tr><td>Private notes during calls</td><td class="highlight"><span class="check">✓</span> Unique feature</td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+      <tr><td>Company branding on calls</td><td class="highlight"><span class="check">✓</span> Full white-label</td><td><span class="cross">✗</span></td><td><span class="partial">⚠ Limited</span></td><td><span class="partial">⚠ Enterprise only</span></td></tr>
+      <tr><td>Starlink optimised</td><td class="highlight"><span class="check">✓</span> Auto-detects</td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+      <tr><td>Price per organisation/month</td><td class="highlight">From £3.99</td><td>Free (you're the product)</td><td>$15.99/user</td><td>$6/user</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="pricing">
+  <p class="section-eyebrow">Pricing</p>
+  <h2 class="section-title">Simple, honest pricing</h2>
+  <p class="section-sub">No free tier. No hidden limits. 7-day free trial on all plans.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-plan">Personal</div>
+      <div class="pricing-price">£3.99</div>
+      <div class="pricing-period">per month · 7-day free trial</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>250 call minutes/month</li>
+        <li>1:1 audio & video calls</li>
+        <li>Direct messaging</li>
+        <li>Call history</li>
+        <li>Private meeting notes</li>
+        <li>Starlink optimisation</li>
+      </ul>
+      <a href="#download" class="pricing-btn">Start free trial</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-plan">Business</div>
+      <div class="pricing-price">£12.99</div>
+      <div class="pricing-period">per month · up to 20 members</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>2,000 call minutes/month</li>
+        <li>Everything in Personal</li>
+        <li>Company branding on calls</li>
+        <li>Group conferences</li>
+        <li>AI meeting summaries</li>
+        <li>Organisation workspace</li>
+        <li>Custom colours & logo</li>
+      </ul>
+      <a href="#download" class="pricing-btn">Start free trial</a>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-plan">Enterprise</div>
+      <div class="pricing-price">£29.99</div>
+      <div class="pricing-period">per month · unlimited members</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>10,000 call minutes/month</li>
+        <li>Everything in Business</li>
+        <li>Custom domain for calls</li>
+        <li>External calls show your brand</li>
+        <li>Admin dashboard</li>
+        <li>Priority support</li>
+        <li>Top-up minutes available</li>
+      </ul>
+      <a href="#download" class="pricing-btn">Contact us</a>
+    </div>
+  </div>
+</section>
+
+<section class="starlink" id="starlink">
+  <div class="starlink-badge">🛰️ Starlink Partnership Program</div>
+  <h2 class="section-title">The only calling app built for Starlink Africa</h2>
+  <p class="section-sub">As Starlink expands across Nigeria, Kenya, Rwanda, and beyond — TopLink Call is the only app that auto-detects and optimises for satellite latency from day one.</p>
+  <div class="starlink-grid">
+    <div class="starlink-card"><div class="starlink-card-icon">⚡</div><div class="starlink-card-title">Auto-detection</div><div class="starlink-card-text">Detects Starlink by IP and network signature. Switches to satellite-optimised profile automatically.</div></div>
+    <div class="starlink-card"><div class="starlink-card-icon">📡</div><div class="starlink-card-title">Satellite latency handling</div><div class="starlink-card-text">Built for 20-600ms RTT. Larger jitter buffers, FEC audio, and TURN TCP/TLS for NAT traversal.</div></div>
+    <div class="starlink-card"><div class="starlink-card-icon">🌍</div><div class="starlink-card-title">Rural Africa ready</div><div class="starlink-card-text">Communities getting Starlink for the first time deserve a calling app designed for their connection.</div></div>
+    <div class="starlink-card"><div class="starlink-card-icon">🤝</div><div class="starlink-card-title">Partnership inquiry</div><div class="starlink-card-text">We're pursuing a formal Starlink partnership. Contact us about Enterprise pricing for Starlink deployments.</div></div>
+  </div>
+</section>
+
+<section class="cta" id="download">
+  <h2>Ready to make calls that actually work?</h2>
+  <p>7-day free trial. No credit card required. Cancel anytime.</p>
+  <div class="cta-actions">
+    <a href="https://expo.dev/accounts/ebongest/projects/toplink-call-privacy-hub/builds" class="btn-dark">⬇ Download for Android</a>
+    <a href="https://app.toplinkcall.app" class="btn-dark">🌐 Open Web App</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">📞 TopLink Call</div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Terms of Service</a></li>
+    <li><a href="mailto:hello@toplinkcall.app">hello@toplinkcall.app</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 TopLink Call · EBONGEST Solutions · toplinkcall.app</div>
+</footer>
+</body>
+</html>
