@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — TopLink Call</title>
+  <meta name="description" content="TopLink Call stores nothing. Zero data policy. Your privacy is absolute." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy: #0B3D66; --blue: #1A5F8C; --green: #52C41A; --white: #fff; --off-white: #F4F7FA; --text: #1A1A2E; --muted: #64748B; --border: #E2E8F0; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.7; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 16px 5%; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; color: var(--navy); text-decoration: none; }
+    .nav-logo-icon { width: 36px; height: 36px; background: var(--navy); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .nav-back { font-size: 14px; color: var(--navy); text-decoration: none; font-weight: 600; }
+
+    .hero { background: var(--navy); padding: 120px 5% 60px; text-align: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(82,196,26,0.15); border: 1px solid rgba(82,196,26,0.3); color: var(--green); font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; }
+    .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 6vw, 56px); font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 16px; }
+    .hero p { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto; }
+    .hero-date { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 16px; }
+
+    .zero-banner { background: var(--green); padding: 32px 5%; text-align: center; }
+    .zero-banner h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(20px, 4vw, 32px); font-weight: 700; color: var(--navy); }
+    .zero-banner p { font-size: 16px; color: rgba(11,61,102,0.75); margin-top: 8px; }
+
+    .content { max-width: 800px; margin: 0 auto; padding: 60px 5%; }
+    .section { margin-bottom: 48px; }
+    .section h2 { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: var(--navy); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--green); }
+    .section p { font-size: 16px; color: var(--text); margin-bottom: 12px; }
+    .section ul { margin: 12px 0 12px 20px; display: flex; flex-direction: column; gap: 8px; }
+    .section ul li { font-size: 16px; color: var(--text); }
+
+    .zero-card { background: var(--navy); border-radius: 16px; padding: 32px; margin: 32px 0; }
+    .zero-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 16px; }
+    .zero-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+    .zero-item { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; text-align: center; }
+    .zero-item-icon { font-size: 28px; margin-bottom: 8px; }
+    .zero-item-text { font-size: 13px; color: rgba(255,255,255,0.8); font-weight: 600; }
+
+    .highlight-box { background: var(--off-white); border-left: 4px solid var(--green); border-radius: 0 12px 12px 0; padding: 20px 24px; margin: 20px 0; }
+    .highlight-box p { margin: 0; font-size: 15px; color: var(--text); font-style: italic; }
+
+    .comparison { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+    .comparison th { background: var(--navy); color: #fff; padding: 12px 16px; text-align: left; font-weight: 700; }
+    .comparison td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    .comparison tr:nth-child(even) { background: var(--off-white); }
+    .yes { color: var(--green); font-weight: 700; }
+    .no { color: #D32F2F; font-weight: 700; }
+
+    .legal-box { background: #FFF7E6; border: 1px solid #FFE58F; border-radius: 12px; padding: 24px; margin: 24px 0; }
+    .legal-box h3 { font-size: 16px; font-weight: 700; color: #D48806; margin-bottom: 8px; }
+    .legal-box p { font-size: 14px; color: #7C5300; margin: 0; }
+
+    footer { background: var(--navy); color: rgba(255,255,255,0.5); padding: 48px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: #fff; }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; }
+    .footer-copy { font-size: 13px; }
+    @media (max-width: 768px) { footer { flex-direction: column; text-align: center; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">📞</div>
+    TopLink Call
+  </a>
+  <a href="/" class="nav-back">← Back to Home</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">🔒 Zero Data Policy</div>
+  <h1>We store nothing.<br />That is our policy.</h1>
+  <p>TopLink Call was built on one principle: your communication belongs to you, not to us.</p>
+  <div class="hero-date">Last updated: July 2026</div>
+</div>
+
+<div class="zero-banner">
+  <h2>TopLink Call is a Zero Privacy Violation System</h2>
+  <p>We do not collect, store, process, share, or sell any personal data — ever.</p>
+</div>
+
+<div class="content">
+
+  <div class="section">
+    <h2>1. What We Store</h2>
+    <div class="zero-card">
+      <h3>The complete list of personal data we store about you:</h3>
+      <div class="zero-grid">
+        <div class="zero-item"><div class="zero-item-icon">🚫</div><div class="zero-item-text">Phone Numbers</div></div>
+        <div class="zero-item"><div class="zero-item-icon">🚫</div><div class="zero-item-text">Messages or Chats</div></div>
+        <div class="zero-item"><div class="zero-item-icon">🚫</div><div class="zero-item-text">Call Recordings</div></div>
+        <div class="zero-item"><div class="zero-item-icon">🚫</div><div class="zero-item-text">Images or Media</div></div>
+        <div class="zero-item"><div class="zero-item-icon">🚫</div><div class="zero-item-text">Location Data</div></div>
+        <div class="zero-item"><div class="zero-item-icon">🚫</div><div class="zero-item-text">Passwords or PINs</div></div>
+        <div class="zero-item"><div class="zero-item-icon">🚫</div><div class="zero-item-text">Device Identifiers</div></div>
+        <div class="zero-item"><div class="zero-item-icon">🚫</div><div class="zero-item-text">Browsing Activity</div></div>
+      </div>
+    </div>
+    <p>Your phone number and country code are used only at the moment of TopLink ID generation and are immediately discarded. They are never written to any database, log file, or storage system.</p>
+  </div>
+
+  <div class="section">
+    <h2>2. Your TopLink Call ID</h2>
+    <p>Your TopLink ID (e.g. <strong>TLC-00001-NG</strong>) is generated mathematically from your phone number and country code at the moment of registration. Once generated:</p>
+    <ul>
+      <li>The phone number used to generate it is immediately discarded</li>
+      <li>Your TopLink ID is your permanent identity on the platform</li>
+      <li>It cannot be transferred to a different phone number</li>
+      <li>If you change devices, entering the same phone number and country regenerates the same ID</li>
+      <li>Your ID is what others use to call you — your phone number is never revealed</li>
+    </ul>
+    <div class="highlight-box">
+      <p>"Your TopLink ID is yours permanently. It is mathematically derived — not assigned from a database — so it is always recoverable by you alone."</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>3. Calls, Messages and Media</h2>
+    <p>All communication through TopLink Call is transient:</p>
+    <ul>
+      <li><strong>Voice and video calls</strong> — transmitted in real time and not recorded or stored by us under any circumstances</li>
+      <li><strong>Chat messages</strong> — delivered to recipients and stored only on your device, not on our servers</li>
+      <li><strong>Images and media</strong> — transmitted directly between users and stored only on the devices of the sender and recipient</li>
+      <li><strong>Call recordings</strong> — if you choose to record a call, it is saved to your device only. We have no access to it</li>
+      <li><strong>Meeting notes</strong> — stored on your device only. We do not have access to your notes</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>4. What We Monitor</h2>
+    <p>To keep the service running reliably, we monitor only aggregate, anonymous statistics:</p>
+    <ul>
+      <li>Number of active users at any given time (count only, no identities)</li>
+      <li>Number of calls in progress (count only, no content)</li>
+      <li>App health and server uptime</li>
+      <li>Error rates (technical only, no personal data)</li>
+    </ul>
+    <p>These statistics contain no personal identifiers. We cannot tell who is making a call, only that calls are happening.</p>
+  </div>
+
+  <div class="section">
+    <h2>5. Device Security</h2>
+    <p>TopLink Call does not impose or manage security on your device. You are responsible for securing your own device and your TopLink ID using whatever method your device offers — Face ID, fingerprint, PIN, or password.</p>
+    <p>We do not store your security credentials and cannot help you recover access if you lose your device without a backup of your TopLink ID.</p>
+    <div class="highlight-box">
+      <p>"Your security is your responsibility. We provide the communication infrastructure. You protect your access to it."</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>6. How We Compare</h2>
+    <table class="comparison">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>TopLink Call</th>
+          <th>WhatsApp</th>
+          <th>Zoom</th>
+          <th>Teams</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Stores phone number</td><td class="no">Never</td><td class="no">Yes</td><td class="no">Yes</td><td class="no">Yes</td></tr>
+        <tr><td>Stores messages</td><td class="yes">No</td><td class="no">Yes</td><td class="no">Yes</td><td class="no">Yes</td></tr>
+        <tr><td>Records calls</td><td class="yes">No</td><td class="yes">No</td><td class="no">Optional</td><td class="no">Optional</td></tr>
+        <tr><td>Sells data to advertisers</td><td class="yes">Never</td><td class="no">Yes (Meta)</td><td class="no">Reported</td><td class="no">Microsoft AI</td></tr>
+        <tr><td>Can be compelled to provide user data</td><td class="yes">Nothing to provide</td><td class="no">Yes</td><td class="no">Yes</td><td class="no">Yes</td></tr>
+        <tr><td>AI trained on your calls</td><td class="yes">Never</td><td class="yes">No</td><td class="no">Yes (opt-out)</td><td class="no">Yes (Copilot)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>7. Legal Requests and Law Enforcement</h2>
+    <div class="legal-box">
+      <h3>⚖️ Our position on legal requests:</h3>
+      <p>TopLink Call cannot provide what it does not have. Because we store no personal data, messages, call content, or user identifiers beyond anonymous aggregate counts, we have nothing to hand over in response to any legal request, court order, or law enforcement inquiry — regardless of jurisdiction.</p>
+    </div>
+    <p>TopLink Call advises and encourages all users to use this service within the laws and constitution of their country. We are not liable or accountable for how users choose to use this service, and we cannot provide any information or evidence regarding any specific user or communication.</p>
+  </div>
+
+  <div class="section">
+    <h2>8. User Responsibility</h2>
+    <p>By using TopLink Call, you acknowledge and agree that:</p>
+    <ul>
+      <li>You are solely responsible for how you use this service</li>
+      <li>You will comply with the laws of your country</li>
+      <li>You are responsible for the security of your own device and TopLink ID</li>
+      <li>Content you share via TopLink Call is your responsibility</li>
+      <li>TopLink Call cannot be held liable for how you use the communication infrastructure we provide</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>9. Changes to This Policy</h2>
+    <p>If we ever change this policy, we will update the date at the top of this page and notify users through the app. Our core commitment — storing nothing about you — will never change. That is the foundation TopLink Call was built on.</p>
+  </div>
+
+  <div class="section">
+    <h2>10. Contact</h2>
+    <p>Questions about this privacy policy? Contact us at:</p>
+    <p><strong><a href="mailto:hello@toplinkcall.app" style="color: var(--navy);">hello@toplinkcall.app</a></strong></p>
+    <p>We will respond within 48 hours.</p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">📞 TopLink Call</div>
+  <ul class="footer-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/privacy">Privacy Policy</a></li>
+    <li><a href="mailto:hello@toplinkcall.app">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 TopLink Call · EBONGEST Solutions · toplinkcall.app</div>
+</footer>
+
+</body>
+</html>
