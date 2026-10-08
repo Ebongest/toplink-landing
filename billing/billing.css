@@ -1,0 +1,40 @@
+/* /subscribe and /account. Same palette and fonts as index.html. */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy: #0B3D66; --green: #52C41A; --white: #FFFFFF; --off-white: #F4F7FA;
+  --text: #1A1A2E; --muted: #64748B; --border: #E2E8F0; --danger: #D32F2F;
+}
+body {
+  font-family: 'Inter', sans-serif; color: var(--text); background: var(--off-white);
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+  padding: 24px 16px 48px;
+}
+header { width: 100%; max-width: 440px; margin-bottom: 24px; }
+.logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; color: var(--navy); text-decoration: none; }
+main { width: 100%; max-width: 440px; }
+.card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 20px;
+  padding: 28px 24px; display: flex; flex-direction: column; gap: 14px;
+}
+h1 { font-family: 'Space Grotesk', sans-serif; font-size: 26px; line-height: 1.2; color: var(--navy); }
+p { font-size: 16px; line-height: 1.6; }
+ul.offer { list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 16px; line-height: 1.5; }
+ul.offer li::before { content: '✓  '; color: var(--green); font-weight: 700; }
+.muted { color: var(--muted); font-size: 14px; }
+.error { color: var(--danger); font-size: 15px; }
+.note { background: var(--off-white); border-radius: 12px; padding: 12px 14px; font-size: 15px; }
+label { font-size: 14px; font-weight: 600; color: var(--navy); }
+input[type=email] {
+  width: 100%; font: inherit; font-size: 16px; /* 16px stops iOS zooming on focus */
+  padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; min-height: 48px;
+}
+button, .button {
+  font: inherit; font-weight: 700; font-size: 16px; border: 0; border-radius: 12px; min-height: 48px;
+  padding: 0 20px; cursor: pointer; text-align: center; text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.primary { background: var(--navy); color: var(--white); }
+.danger { background: var(--white); color: var(--danger); border: 1px solid var(--danger); }
+button:disabled { opacity: 0.6; cursor: default; }
+footer { margin-top: 24px; max-width: 440px; text-align: center; }
+footer a { color: var(--muted); }

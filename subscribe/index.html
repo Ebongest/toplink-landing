@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Founding Member — TopLink Call</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/billing/billing.css" />
+</head>
+<body>
+  <header><a class="logo" href="/">TopLink Call</a></header>
+  <main>
+    <div class="card" data-view="loading"><p class="muted">Loading…</p></div>
+
+    <!-- Founder's wording, 2026-10-08. Keep it exactly, here and in the app. -->
+    <div class="card" data-view="offer" hidden>
+      <h1>Founding Member — £2/month</h1>
+      <ul class="offer">
+        <li>First 400 only.</li>
+        <li>Your price is locked for 6 months.</li>
+        <li>Includes 150 credits/month (150 min voice or 50 min video).</li>
+      </ul>
+      <p class="note" id="cancelled-note" hidden>Payment cancelled. Nothing was charged.</p>
+      <div id="email-field" hidden>
+        <label for="email">Email for your Paystack receipt</label>
+        <input id="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" />
+      </div>
+      <p class="error" id="offer-error" hidden></p>
+      <button class="primary" id="subscribe">Subscribe</button>
+      <p class="muted" id="provider-note"></p>
+    </div>
+
+    <div class="card" data-view="done" hidden>
+      <h1>Thank you!</h1>
+      <p>Your payment went through. Go back to the TopLink Call app: your Founding Member allowance appears there by itself within a few seconds.</p>
+      <p class="muted" id="done-credits"></p>
+    </div>
+
+    <div class="card" data-view="member" hidden>
+      <h1>You're already a Founding Member</h1>
+      <p>Nothing more to pay. To cancel or change your card, go to your account.</p>
+      <a class="button primary" href="/account/">Manage subscription</a>
+    </div>
+
+    <div class="card" data-view="full" hidden>
+      <h1>Founding Member slots are full</h1>
+      <p>Join the waitlist in the TopLink Call app (More → Founding Member) and we will notify you when a spot opens.</p>
+    </div>
+
+    <div class="card" data-view="error" hidden>
+      <h1>Can't continue</h1>
+      <p id="error-text"></p>
+    </div>
+  </main>
+  <footer><a href="/privacy.html">Privacy policy</a></footer>
+
+  <script src="/billing/billing.js"></script>
+  <script>
+    (async () => {
+      const params = new URLSearchParams(location.search);
+
+      // Back from Stripe Checkout / Paystack after paying. The webhook does
+      // the rest; the app watches for it.
+      if (params.get('done')) {
+        setText('done-credits', creditEquivalents(150) + ' every month.');
+        return show('done');
+      }
+
+      const { ok, data } = await billing('status');
+      if (!ok) {
+        setText('error-text', data.error || 'Something went wrong. Please try again.');
+        return show('error');
+      }
+      if (data.subscribed) return show('member');
+      if (data.full) return show('full');
+
+      const paystack = data.provider === 'paystack';
+      document.getElementById('email-field').hidden = !paystack;
+      document.getElementById('cancelled-note').hidden = !params.get('cancelled');
+      setText('provider-note', (paystack ? 'Secure payment by Paystack.' : 'Secure payment by Stripe.')
+        + ' We never see or store your card details. Cancel any time from your account.');
+      show('offer');
+
+      const button = document.getElementById('subscribe');
+      const error = document.getElementById('offer-error');
+      button.addEventListener('click', async () => {
+        error.hidden = true;
+        const email = document.getElementById('email').value.trim();
+        if (paystack && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+          error.textContent = 'Please enter a valid email address.';
+          error.hidden = false;
+          return;
+        }
+        busy(button, true, 'Opening secure checkout…');
+        const result = await billing('checkout', paystack ? { email } : {});
+        if (result.ok && result.data.url) {
+          location.href = result.data.url;
+          return;
+        }
+        if (result.data.reason === 'full') return show('full');
+        if (result.data.reason === 'already_subscribed') return show('member');
+        error.textContent = result.data.error || 'Something went wrong. Please try again.';
+        error.hidden = false;
+        busy(button, false, 'Subscribe');
+      });
+    })();
+  </script>
+</body>
+</html>
